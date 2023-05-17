@@ -2,19 +2,29 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from dotenv import load_dotenv
+import platform
+import os
 import sys
 import time
 
-username = ''
-password = ''
-food = ''
-selfName = 'سلف مرکزی - 1'
-nextWeek = False # Should I click on the next week arrow before searching for food?
+load_dotenv()
+
+username = os.getenv('STUDENT_ID')
+password = os.getenv('PASSWORD')
+food = os.getenv('FOOD_NAME')
+selfName = os.getenv('SELF_NAME')
+nextWeek = os.getenv('NEXT_WEEK') # Should I click on the next week arrow before searching for food?
 
 refreshCount = 0
 options = Options()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
+
+if platform.system() == 'Windows':
+    os.system('cls')
+else:
+    os.system('clear')
 
 driver.get("https://food.guilan.ac.ir/")
 print('[INFO] Site loaded')
