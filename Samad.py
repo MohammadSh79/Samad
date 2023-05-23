@@ -14,11 +14,11 @@ username = os.getenv('STUDENT_ID')
 password = os.getenv('PASSWORD')
 food = os.getenv('FOOD_NAME')
 selfName = os.getenv('SELF_NAME')
-nextWeek = os.getenv('NEXT_WEEK') # Should I click on the next week arrow before searching for food?
+nextWeek = True if os.getenv('NEXT_WEEK').lower() == 'true' else False # Should I click on the next week arrow before searching for food?
 
 refreshCount = 0
 options = Options()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
 if platform.system() == 'Windows':
@@ -56,6 +56,9 @@ print('[INFO] Self Selected')
 if nextWeek:
     driver.find_element(By.XPATH, "/html/body/div[2]/div[4]/div[1]/div/div/div[2]/form[1]/table/tbody/tr/td/table/tbody/tr[1]/td[5]/input").click()
 
+driver.get_screenshot_as_file("Screenshot.png")
+print("[INFO] Screenshot saved")
+
 # Select food
 while True:
     try:
@@ -71,13 +74,13 @@ while True:
         if exitt:
             break
         refreshCount += 1
-        sys.stdout.write("\rRefresh Count: {0}".format(refreshCount))
+        sys.stdout.write("\rRefresh Count: {0}\n".format(refreshCount))
         sys.stdout.flush()
         driver.refresh()
         
     except:
         refreshCount += 1
-        sys.stdout.write("\rRefresh Count: {0}".format(refreshCount))
+        sys.stdout.write("\rRefresh Count: {0}\n".format(refreshCount))
         sys.stdout.flush()
         driver.refresh()
         pass
